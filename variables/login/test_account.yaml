@@ -1,0 +1,11 @@
+TC_01:
+  email: "demo@promptqa.test"
+  password: "Demo@1234"
+
+TC_02:
+  email: "invlid@promptqa.test"
+  password: "Demo@1234"
+
+TC_03:
+  email: "demo@promptqa.test"
+  password: "invalidpassword"

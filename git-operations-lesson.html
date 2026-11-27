@@ -1,0 +1,283 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <title>Git, in motion — an interactive lesson</title>
+  <style>
+    :root{--bg:#0a1020;--panel:#111a2b;--panel2:#172238;--line:#293750;--text:#f0f5ff;--muted:#a8b7cf;--cyan:#56d6ed;--orange:#ffba6b;--green:#72dfae;--purple:#c5a3ff;--red:#ff8b97;--shadow:0 24px 70px #0005}
+    *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:radial-gradient(circle at 78% -10%,#1d3253 0,transparent 35%),radial-gradient(circle at 0 15%,#152641 0,transparent 30%),var(--bg);color:var(--text);font:16px/1.5 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}button,a{font:inherit}button{cursor:pointer}a{color:var(--cyan)}:focus-visible{outline:3px solid var(--cyan);outline-offset:3px}.shell{max-width:1480px;margin:auto;padding:24px clamp(16px,3vw,48px) 64px}.topbar{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:38px}.brand{font-size:.85rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--cyan)}.topbar a{font-size:.85rem;color:var(--muted);text-decoration:none;border-bottom:1px solid var(--line)}.hero{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:end;gap:24px;margin-bottom:26px}.eyebrow{color:var(--orange);text-transform:uppercase;letter-spacing:.15em;font-size:.76rem;font-weight:800}.hero h1{font-size:clamp(2.6rem,6vw,5.7rem);line-height:1.02;letter-spacing:-.06em;margin:10px 0 14px}.hero h1 span{color:var(--cyan)}.hero p{max-width:670px;color:var(--muted);font-size:1.07rem;margin:0}.hero-note{border:1px solid var(--line);background:#131f33bd;border-radius:18px;padding:16px 18px;max-width:270px;color:var(--muted);font-size:.85rem}.hero-note strong{display:block;color:var(--text);margin-bottom:4px}.lesson{display:grid;grid-template-columns:260px minmax(0,1fr);gap:20px}.sidebar,.main-card,.concept,.quiz-card{border:1px solid var(--line);background:linear-gradient(145deg,#142039e8,#10192be8);box-shadow:var(--shadow);border-radius:22px}.sidebar{padding:18px;align-self:start;position:sticky;top:18px;max-height:calc(100vh - 36px);overflow:auto}.sidebar-title{font-size:.75rem;color:var(--muted);letter-spacing:.13em;text-transform:uppercase;font-weight:800;margin:4px 6px 12px}.steps{display:grid;gap:5px}.step-button{width:100%;display:flex;gap:10px;align-items:center;text-align:left;border:1px solid transparent;border-radius:11px;padding:9px 10px;background:transparent;color:var(--muted);font-size:.85rem}.step-button:hover{background:#1d2c47;color:var(--text)}.step-button.active{background:#223b58;border-color:#3b6883;color:white}.step-button.done .num{background:#204d4c;color:var(--green)}.num{flex:none;display:grid;place-items:center;width:26px;height:26px;border-radius:8px;background:#25334a;color:var(--muted);font:700 .7rem ui-monospace,SFMono-Regular,Consolas,monospace}.step-button.active .num{background:var(--cyan);color:#10212d}.sidebar-foot{border-top:1px solid var(--line);padding:14px 6px 2px;margin-top:14px;color:var(--muted);font-size:.75rem}.main-card{overflow:hidden}.lesson-head{display:flex;justify-content:space-between;gap:20px;align-items:start;padding:28px 30px 20px}.chapter{color:var(--cyan);font-size:.75rem;font-weight:800;text-transform:uppercase;letter-spacing:.14em}.lesson-head h2{font-size:clamp(1.6rem,3vw,2.35rem);line-height:1.12;letter-spacing:-.035em;margin:8px 0}.lesson-head p{color:var(--muted);max-width:690px;margin:0}.progress-wrap{min-width:130px;text-align:right;color:var(--muted);font:700 .78rem ui-monospace,SFMono-Regular,Consolas,monospace}.progress-track{height:6px;background:#283750;border-radius:99px;margin-top:9px;overflow:hidden}.progress-fill{height:100%;background:linear-gradient(90deg,var(--cyan),var(--green));transition:width .35s}.command-box{margin:0 30px 24px;display:flex;align-items:center;gap:14px;flex-wrap:wrap;background:#08111f;border:1px solid #354660;border-radius:14px;padding:13px 16px;min-height:58px}.prompt{color:var(--green);font:700 .9rem ui-monospace,SFMono-Regular,Consolas,monospace}.command{font:700 .93rem ui-monospace,SFMono-Regular,Consolas,monospace;white-space:pre-wrap;overflow-wrap:anywhere}.command-help{margin-left:auto;color:var(--muted);font-size:.76rem}.viz{padding:0 30px 28px}.section-label{font-size:.74rem;font-weight:800;text-transform:uppercase;letter-spacing:.13em;color:var(--muted);margin:0 0 11px}.pipeline{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;position:relative}.zone{position:relative;min-height:218px;background:#0e192b;border:1px solid #30435f;border-radius:16px;padding:16px;transition:transform .35s,border-color .35s,box-shadow .35s}.zone.active{border-color:var(--cyan);box-shadow:0 0 0 1px #56d6ed55,0 0 34px #56d6ed24;transform:translateY(-4px)}.zone[data-zone="stage"].active{border-color:var(--orange);box-shadow:0 0 0 1px #ffba6b55,0 0 34px #ffba6b24}.zone[data-zone="local"].active{border-color:var(--purple);box-shadow:0 0 0 1px #c5a3ff55,0 0 34px #c5a3ff24}.zone[data-zone="remote"].active{border-color:var(--green);box-shadow:0 0 0 1px #72dfae55,0 0 34px #72dfae24}.zone-top{display:flex;align-items:center;gap:8px;margin-bottom:13px}.zone-icon{display:grid;place-items:center;width:28px;height:28px;border-radius:8px;background:#243a55;color:var(--cyan);font-weight:900}.zone[data-zone="stage"] .zone-icon{background:#51402e;color:var(--orange)}.zone[data-zone="local"] .zone-icon{background:#3c315b;color:var(--purple)}.zone[data-zone="remote"] .zone-icon{background:#254c40;color:var(--green)}.zone h3{font-size:.9rem;margin:0}.zone small{color:var(--muted);font-size:.72rem}.file{border:1px solid #435f79;background:#1c3049;border-radius:10px;padding:10px 11px;margin-top:8px;animation:pop .3s ease both}.file strong{display:block;font:700 .78rem ui-monospace,SFMono-Regular,Consolas,monospace;overflow-wrap:anywhere}.file span{font-size:.7rem;color:var(--muted)}.file.dirty{border-color:var(--orange);background:#3d302b}.file.staged{border-color:var(--orange);background:#3b302a}.file.committed{border-color:var(--purple);background:#302945}.file.remote{border-color:var(--green);background:#203b35}.empty{color:#7486a0;font-size:.77rem;border:1px dashed #3b4a5c;border-radius:10px;padding:11px;margin-top:8px}.arrow{position:absolute;z-index:2;right:-18px;top:103px;display:grid;place-items:center;background:#192940;border:1px solid #3c5675;border-radius:50%;width:28px;height:28px;color:var(--cyan);font-size:1rem}.zone:last-child .arrow{display:none}.zone-foot{position:absolute;bottom:13px;left:16px;right:16px;color:#879ab4;font-size:.69rem}.graph-wrap{margin-top:22px;border:1px solid #33445e;background:#0d1728;border-radius:16px;padding:18px}.graph-head{display:flex;justify-content:space-between;gap:12px;align-items:center;margin-bottom:13px}.graph-head .section-label{margin:0}.legend{color:var(--muted);font-size:.72rem}.graph{min-height:125px;display:flex;align-items:center;gap:0;overflow-x:auto;padding:8px 1px}.commit{position:relative;flex:none;width:130px;min-height:90px;padding-top:34px}.commit:before{content:"";position:absolute;left:12px;top:11px;width:17px;height:17px;border:3px solid var(--purple);background:#201a36;border-radius:50%;z-index:2}.commit:after{content:"";position:absolute;left:28px;top:20px;width:104px;height:2px;background:#52617a}.commit:last-child:after{display:none}.commit.remote-only:before{border-color:var(--green);background:#17382e}.commit.muted{opacity:.38}.commit .hash{color:var(--purple);font:800 .78rem ui-monospace,SFMono-Regular,Consolas,monospace}.commit.remote-only .hash{color:var(--green)}.commit .msg{font-size:.72rem;color:var(--muted);line-height:1.25;margin-top:2px;max-width:105px}.refs{position:absolute;top:-8px;left:0;display:flex;gap:3px;white-space:nowrap}.ref{font:700 .63rem ui-monospace,SFMono-Regular,Consolas,monospace;color:#152135;background:var(--cyan);border-radius:5px;padding:2px 4px}.ref.feature{background:var(--orange)}.ref.origin{background:var(--green)}.ref.head{background:var(--purple)}.graph-empty{color:#7388a3;font-size:.85rem}.explain{display:grid;grid-template-columns:minmax(0,1fr) minmax(210px,.45fr);gap:18px;padding:22px 30px;border-top:1px solid var(--line);background:#142139}.explain h3{margin:0 0 7px;font-size:1rem}.explain p{color:#c2cfe0;margin:0;font-size:.9rem}.takeaway{border-left:3px solid var(--orange);padding-left:14px}.takeaway h3{color:var(--orange)}.controls{display:flex;align-items:center;gap:10px;padding:17px 30px;flex-wrap:wrap}.btn{border:1px solid #465b75;color:var(--text);background:#20324c;border-radius:10px;padding:10px 14px;font-weight:700;font-size:.85rem}.btn:hover{background:#2a4264}.btn.primary{background:var(--cyan);color:#0c2330;border-color:var(--cyan)}.btn.primary:hover{background:#9bf0fc}.btn:disabled{opacity:.4;cursor:not-allowed}.controls .spacer{flex:1}.shortcuts{color:#8fa2bc;font-size:.72rem}.below{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:20px}.concept,.quiz-card{padding:23px 25px}.concept h2,.quiz-card h2{font-size:1.15rem;margin:0 0 10px}.concept p,.quiz-card p{color:var(--muted);font-size:.86rem;margin:0 0 12px}.concept-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.concept-mini{border:1px solid #34455f;border-radius:10px;padding:10px;background:#14223a}.concept-mini strong{display:block;font-size:.79rem}.concept-mini span{color:var(--muted);font-size:.72rem}.quiz-options{display:grid;gap:7px}.quiz-option{text-align:left;border:1px solid #354a65;background:#15253d;color:var(--text);border-radius:9px;padding:9px 11px;font-size:.82rem}.quiz-option:hover{border-color:var(--cyan)}.quiz-option.correct{border-color:var(--green);background:#1c3b35}.quiz-option.wrong{border-color:var(--red);background:#402b35}.quiz-feedback{min-height:22px;margin-top:10px!important;font-size:.79rem!important}.quiz-next{font-size:.78rem;padding:7px 11px}.footer{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;margin-top:22px;color:#8194ae;font-size:.75rem}.footer a{color:#9eb7d3}.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}@keyframes pop{from{opacity:.1;transform:translateY(7px)}to{opacity:1;transform:translateY(0)}}@media(max-width:1080px){.lesson{grid-template-columns:1fr}.sidebar{position:static;max-height:none}.steps{grid-template-columns:repeat(4,minmax(0,1fr))}.step-button{font-size:.75rem}.sidebar-foot{display:none}}@media(max-width:740px){.hero{grid-template-columns:1fr}.hero-note{max-width:none}.steps{grid-template-columns:repeat(2,minmax(0,1fr))}.lesson-head{flex-direction:column}.progress-wrap{text-align:left;width:100%}.pipeline{grid-template-columns:repeat(2,minmax(0,1fr))}.zone{min-height:195px}.zone:nth-child(2) .arrow{display:none}.arrow{top:92px}.explain,.below{grid-template-columns:1fr}.command-help{width:100%;margin-left:0}.shortcuts{display:none}}@media(max-width:450px){.pipeline{grid-template-columns:1fr}.zone{min-height:160px}.arrow{display:none}.steps{grid-template-columns:1fr 1fr}.step-button{padding:6px}.step-button .num{width:23px;height:23px}.lesson-head,.viz,.controls{padding-left:18px;padding-right:18px}.command-box{margin-left:18px;margin-right:18px}.explain{padding-left:18px;padding-right:18px}}@media(prefers-reduced-motion:reduce){*,*:before,*:after{scroll-behavior:auto!important;animation:none!important;transition:none!important}}
+    /* Classroom view: familiar names first, Git terms second. */
+    .step-group{margin:15px 10px 4px;color:var(--orange);font-size:.69rem;font-weight:800;letter-spacing:.13em;text-transform:uppercase}
+    .step-group:first-child{margin-top:4px}
+    .step-command{font:750 .82rem ui-monospace,SFMono-Regular,Consolas,monospace}
+    .step-button.active .step-command{color:#fff}
+    .watch-note{display:flex;gap:13px;align-items:center;margin-bottom:20px;padding:15px 17px;border:1px solid #3b6675;border-radius:14px;background:#16313d}
+    .watch-symbol{display:grid;place-items:center;flex:none;width:38px;height:38px;border-radius:11px;background:#214959;font-size:1.2rem}
+    .watch-note strong{display:block;color:#98eff7;font-size:.76rem;letter-spacing:.08em;text-transform:uppercase}
+    .watch-note span:last-child{display:block;color:#e5f9fb;font-size:.94rem;line-height:1.38}
+    .flow-hint{float:right;color:var(--cyan);font-size:.7rem;letter-spacing:0;text-transform:none}
+    .zone{min-height:238px;background:#17243a;border-width:2px;padding:17px}
+    .zone.active{transform:translateY(-5px) scale(1.015)}
+    .zone-top{align-items:flex-start;gap:10px;margin-bottom:17px}
+    .zone-icon,.zone[data-zone="stage"] .zone-icon,.zone[data-zone="local"] .zone-icon,.zone[data-zone="remote"] .zone-icon{width:34px;height:34px;border-radius:10px;font-size:1rem}
+    .zone h3{font-size:1.03rem;line-height:1.1;margin:2px 0 4px}
+    .zone small{display:block;line-height:1.3;font-size:.72rem}
+    .zone-foot{font-size:.72rem;line-height:1.25}
+    .file{padding:12px;border-width:2px}
+    .file strong{font-size:.82rem}
+    .file span{font-size:.73rem}
+    .empty{font-size:.79rem;line-height:1.3}
+    .repo-summary{padding:11px 12px;border:1px solid #66558a;border-radius:10px;background:#302945;animation:pop .3s ease both}
+    .repo-summary strong{display:block;font-size:.83rem;line-height:1.25}
+    .repo-summary>span{display:block;font-size:.71rem;color:#d2c6e5;margin:3px 0 10px}
+    .branch-list{display:grid;gap:5px}
+    .branch-chip{display:block;width:max-content;max-width:100%;padding:4px 6px;border-radius:6px;background:#253f58;color:#b9dff0;font:700 .67rem/1.3 ui-monospace,SFMono-Regular,Consolas,monospace;overflow-wrap:anywhere}
+    .branch-chip.current{background:#254c62;color:#baf1fa}
+    .branch-chip.feature{background:#5a432d;color:#ffe0b8}
+    .remote-summary{border-color:#467460;background:#203c34}
+    .remote-summary>span{color:#bfe3ce}
+    .remote-summary .branch-chip{background:#2e5b48;color:#dcffeb}
+    .remote-summary .pr-open{background:#5b432b;color:#ffe3b6}
+    .remote-summary .pr-merged{background:#315b42;color:#d9ffe5}
+    .graph-wrap{background:#131f31}
+    .graph{min-height:135px;align-items:flex-start;padding-top:11px}
+    .commit{width:170px;min-height:118px;padding-top:69px}
+    .commit:before{top:43px;left:8px;width:19px;height:19px}
+    .commit:after{top:53px;left:27px;width:143px}
+    .refs{top:0;left:0;right:6px;flex-wrap:wrap;gap:3px;min-height:38px;align-content:flex-start}
+    .ref{font-size:.62rem;white-space:normal;line-height:1.2}
+    .commit .hash{font-size:.84rem}
+    .commit .msg{max-width:155px;font-size:.73rem}
+    .graph-empty{align-self:center}
+    .graph{display:block;min-height:0;overflow-x:auto;padding:0}
+    .branch-svg{display:block;width:100%;min-width:720px;height:auto}
+    .branch-guide{stroke:#40516a;stroke-width:1.5;stroke-dasharray:7 8}
+    .branch-path{fill:none;stroke-width:5;stroke-linecap:round;stroke-linejoin:round}
+    .version-key{display:flex;flex-wrap:wrap;gap:7px;margin-top:7px}
+    .version-key span{border:1px solid #374b65;background:#1d2b41;border-radius:7px;padding:5px 7px;color:#b9c9dd;font-size:.71rem}
+    .version-key strong{color:#eef5ff}
+    .graph-note{color:#c7d7e8;font-size:.79rem;margin:11px 0 0}
+    .command-box{display:block;padding:14px 17px}
+    .command-example{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+    .command-row-label{display:inline-block;min-width:58px;color:#93a7c0;font-size:.68rem;font-weight:800;letter-spacing:.11em;text-transform:uppercase}
+    .command-example .command{color:#fff}
+    .command-example .command-help{margin-left:auto}
+    .command-syntax{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;border-top:1px solid #31445c;margin-top:12px;padding-top:12px}
+    .command-syntax[hidden]{display:none}
+    .command-syntax code{color:#a9eece;font:700 .88rem ui-monospace,SFMono-Regular,Consolas,monospace;overflow-wrap:anywhere}
+    .syntax-hint{flex-basis:100%;color:#9badc3;font-size:.7rem;margin-left:70px}
+    @media(max-width:900px){.pipeline{grid-template-columns:repeat(2,minmax(0,1fr))}.zone:nth-child(2) .arrow{display:none}}
+    @media(max-width:740px){.zone{min-height:205px}.flow-hint{display:none}.watch-note span:last-child{font-size:.85rem}}
+    @media(max-width:450px){.pipeline{grid-template-columns:1fr}.zone{min-height:160px}.arrow{display:none}.step-command{font-size:.7rem}.step-group{grid-column:1/-1}.watch-note{padding:12px}.syntax-hint{margin-left:0}.command-example .command-help{width:100%;margin-left:0}}
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <header class="topbar"><div class="brand">Git classroom / interactive lesson</div><a href="https://www.youtube.com/watch?v=e9lnsKot_SQ" target="_blank" rel="noopener noreferrer">View the inspiration video ↗</a></header>
+    <section class="hero" aria-labelledby="page-title"><div><div class="eyebrow">From first repository to first pull request</div><h1 id="page-title">Git, <span>made visual.</span></h1><p>Create an online GitHub repository and a separate folder on your computer. Then commit and push a Robot Framework suite, build a test on a branch, and merge it through a pull request.</p></div><div class="hero-note"><strong>How to use this lesson</strong>Choose a step on the left or click “Next step.” The highlighted box shows where to look.</div></section>
+    <main>
+      <div class="lesson">
+        <nav class="sidebar" aria-label="Steps in this lesson"><div class="sidebar-title">Workflow in order</div><div class="steps" id="steps"></div><div class="sidebar-foot">File editing and pull requests happen outside Git commands. The sample Robot Framework project is illustrative.</div></nav>
+        <article class="main-card" aria-labelledby="step-title">
+          <div class="lesson-head"><div><div class="chapter" id="chapter"></div><h2 id="step-title"></h2><p id="subtitle"></p></div><div class="progress-wrap"><span id="progress-text"></span><div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div></div></div>
+          <div class="command-box" aria-label="Command example and reusable syntax"><div class="command-example"><span class="command-row-label" id="example-label">Example</span><span class="prompt" id="prompt">$</span><span class="command" id="command"></span><span class="command-help" id="command-help"></span></div><div class="command-syntax" id="syntax-row"><span class="command-row-label">Syntax</span><code id="syntax"></code><span class="syntax-hint" id="syntax-hint"></span></div></div>
+          <div class="viz">
+            <div class="watch-note"><span class="watch-symbol" aria-hidden="true">👀</span><div><strong>What to notice</strong><span id="watch-message"></span></div></div>
+            <p class="section-label">Follow changes from your computer to GitHub <span class="flow-hint">left → right</span></p>
+            <div class="pipeline" aria-live="polite">
+              <section class="zone" data-zone="work"><div class="zone-top"><span class="zone-icon">1</span><div><h3>Local files</h3><small>Working tree · editable files</small></div></div><div id="work-content"></div><div class="zone-foot">You edit files here</div><span class="arrow" aria-hidden="true">→</span></section>
+              <section class="zone" data-zone="stage"><div class="zone-top"><span class="zone-icon">2</span><div><h3>Staging area</h3><small>Chosen changes · still local</small></div></div><div id="stage-content"></div><div class="zone-foot">git add copies changes here</div><span class="arrow" aria-hidden="true">→</span></section>
+              <section class="zone" data-zone="local"><div class="zone-top"><span class="zone-icon">3</span><div><h3>Local commits</h3><small>Saved history · on your computer</small></div></div><div id="local-content"></div><div class="zone-foot">git commit saves history here</div><span class="arrow" aria-hidden="true">⇄</span></section>
+              <section class="zone" data-zone="remote"><div class="zone-top"><span class="zone-icon">4</span><div><h3>GitHub repository</h3><small>Remote repo · named origin locally</small></div></div><div id="remote-content"></div><div class="zone-foot">git push sends · git pull brings</div></section>
+            </div>
+            <div class="graph-wrap"><div class="graph-head"><p class="section-label">Branch paths</p><span class="legend">Each circle is a saved version · labels show where branches point</span></div><div class="graph" id="graph" aria-live="polite"></div></div>
+          </div>
+          <div class="explain"><div><h3>What happened?</h3><p id="explanation"></p></div><div class="takeaway"><h3>Remember</h3><p id="takeaway"></p></div></div>
+          <div class="controls"><button class="btn" id="prev" type="button">← Previous</button><button class="btn primary" id="next" type="button">Next step →</button><span class="spacer"></span><button class="btn" id="reset" type="button">Restart</button><span class="shortcuts">Keyboard: ← / →</span></div>
+        </article>
+      </div>
+      <div class="below">
+        <section class="concept"><h2>A quick mental model</h2><p>Git records snapshots. A branch points to a commit. The staging area chooses the next snapshot. A pull request asks to merge a pushed branch into main.</p><div class="concept-grid"><div class="concept-mini"><strong>git status</strong><span>See what changed and what is staged.</span></div><div class="concept-mini"><strong>git log --oneline --graph --all</strong><span>Inspect local commit history.</span></div><div class="concept-mini"><strong>git diff</strong><span>See unstaged changes.</span></div><div class="concept-mini"><strong>git diff --staged</strong><span>See the next commit's selected changes.</span></div></div></section>
+        <section class="quiz-card" aria-labelledby="quiz-title"><h2 id="quiz-title">Check your understanding</h2><p id="quiz-question"></p><div class="quiz-options" id="quiz-options"></div><p class="quiz-feedback" id="quiz-feedback" role="status"></p><button class="btn quiz-next" id="quiz-next" type="button" hidden>Next question →</button></section>
+      </div>
+    </main>
+    <footer class="footer"><span>Built as a self-contained teaching page. No account, installation, or network connection is needed to run the lesson.</span><span>Reference: <a href="https://git-scm.com/book/en/v2/Git-Basics-Recording-Changes-to-the-Repository" target="_blank" rel="noopener noreferrer">Pro Git: recording changes</a> · <a href="https://git-scm.com/docs/git-merge" target="_blank" rel="noopener noreferrer">merge</a> · <a href="https://git-scm.com/docs/git-pull" target="_blank" rel="noopener noreferrer">pull</a></span></footer>
+  </div>
+  <script>
+    const S = [
+      {chapter:'01 / Setup',title:'Create an empty repository on GitHub',subtitle:'Use GitHub’s New repository page. This is the online remote repository.',command:'GitHub: New repository',help:'Leave README and other starter files unchecked',work:[],stage:[],local:0,remote:0,main:null,feature:null,remoteMain:null,remoteFeature:null,head:null,remoteSetup:true,originConnected:false,localFolder:false,pr:'none',focus:'remote',explanation:'This creates an empty repository on GitHub, not a folder on your computer. Starting empty lets your first local push create main without reconciling a separate first commit.',takeaway:'The remote repository lives online. Your local project folder is a separate place.'},
+      {chapter:'01 / Setup',title:'Create a folder on your computer',subtitle:'Make and open a local folder named robot-tests.',command:'# create and open a local robot-tests folder',help:'Use Finder, File Explorer, or a terminal',work:[],stage:[],local:0,remote:0,main:null,feature:null,remoteMain:null,remoteFeature:null,head:null,remoteSetup:true,originConnected:false,localFolder:true,pr:'none',focus:'work',explanation:'The local folder is where your Robot Framework files will live. It is still just an ordinary empty folder until you run git init inside it.',takeaway:'A folder on your computer and a GitHub repository are two separate locations.'},
+      {chapter:'01 / Setup',title:'Initialize local Git',subtitle:'Create a local repository with main as its first branch.',command:'git init -b main',help:'-b names the first branch only',work:[],stage:[],local:0,remote:0,main:null,feature:null,remoteMain:null,remoteFeature:null,head:'main',remoteSetup:true,originConnected:false,pr:'none',focus:'local',explanation:'git init creates the hidden .git directory inside your local folder. The -b option names this new repository’s initial branch main; it does not create later feature branches.',takeaway:'Use git init -b when starting a repository. Use git switch -c for a new branch in an existing one.'},
+      {chapter:'01 / Setup',title:'Connect origin',subtitle:'Give your local repository the URL of the empty GitHub repository.',command:'git remote add origin https://github.com/your-name/robot-tests.git',help:'Replace the example URL with your repository URL',work:[],stage:[],local:0,remote:0,main:null,feature:null,remoteMain:null,remoteFeature:null,head:'main',remoteSetup:true,originConnected:true,pr:'none',focus:'remote',explanation:'origin is a short name for the online repository URL. This connection lets later push and pull commands refer to the GitHub repository.',takeaway:'git remote add origin links the two places; it does not send commits.'},
+      {chapter:'02 / First main commit',title:'Write the starting suite',subtitle:'Add a login test and a shared browser resource on main.',command:'# create tests/login.robot and resources/browser.resource',help:'File editing, not a Git command',work:['tests/login.robot|new · untracked|dirty','resources/browser.resource|new · untracked|dirty'],stage:[],local:0,remote:0,main:null,feature:null,remoteMain:null,remoteFeature:null,head:'main',remoteSetup:true,originConnected:true,pr:'none',focus:'work',explanation:'The Robot Framework files exist only in the working folder. Git has not staged or committed them.',takeaway:'Writing files changes the working tree first.'},
+      {chapter:'02 / First main commit',title:'Stage the suite',subtitle:'Choose both files for the first commit.',command:'git add tests/login.robot resources/browser.resource',help:'Stage two files',work:['tests/login.robot|tracked|plain','resources/browser.resource|tracked|plain'],stage:['tests/login.robot|selected for commit|staged','resources/browser.resource|selected for commit|staged'],local:0,remote:0,main:null,feature:null,remoteMain:null,remoteFeature:null,head:'main',remoteSetup:true,originConnected:true,pr:'none',focus:'stage',explanation:'git add copies the chosen file contents into the staging area. The originals remain in your working folder.',takeaway:'The staging area defines the next snapshot.'},
+      {chapter:'02 / First main commit',title:'Commit on main',subtitle:'Save the starting Robot Framework project locally.',command:'git commit -m "Start Robot suite"',help:'Create Version 1 on main',work:['tests/login.robot|clean|plain','resources/browser.resource|clean|plain'],stage:[],local:1,remote:0,main:'A',feature:null,remoteMain:null,remoteFeature:null,head:'main',remoteSetup:true,originConnected:true,pr:'none',focus:'local',explanation:'Version 1 contains both files. Local main now points to this commit; the empty remote still has none.',takeaway:'A commit saves a snapshot on your computer.'},
+      {chapter:'02 / First main commit',title:'Push main',subtitle:'Publish the starting suite to the GitHub repository.',command:'git push -u origin main',help:'Send main and set its upstream',work:['tests/login.robot|clean|plain','resources/browser.resource|clean|plain'],stage:[],local:1,remote:1,main:'A',feature:null,remoteMain:'A',remoteFeature:null,head:'main',remoteSetup:true,originConnected:true,pr:'none',focus:'remote',explanation:'Git sends Version 1 to origin, creating main on GitHub. The -u option sets the upstream relationship for future push and pull.',takeaway:'The first push makes the main branch available to the team.'},
+      {chapter:'03 / Feature branch',title:'Create a feature branch',subtitle:'Keep the invalid-login test separate from main while you build it.',command:'git switch -c feature/invalid-login',help:'Create and switch to a branch from main',work:['tests/login.robot|clean|plain','resources/browser.resource|clean|plain'],stage:[],local:1,remote:1,main:'A',feature:'A',remoteMain:'A',remoteFeature:null,head:'feature',remoteSetup:true,originConnected:true,pr:'none',focus:'local',explanation:'git switch -c creates feature/invalid-login from the current commit and switches to it. Both local branch names point to Version 1 until the feature gets a commit.',takeaway:'Use git switch -c to create a new branch while already working in a repository.'},
+      {chapter:'03 / Feature branch',title:'Write an invalid-login test',subtitle:'Add a Robot Framework test for rejected credentials.',command:'# create tests/invalid_login.robot',help:'File editing, not a Git command',work:['tests/login.robot|clean|plain','resources/browser.resource|clean|plain','tests/invalid_login.robot|new · untracked|dirty'],stage:[],local:1,remote:1,main:'A',feature:'A',remoteMain:'A',remoteFeature:null,head:'feature',remoteSetup:true,originConnected:true,pr:'none',focus:'work',explanation:'The new test exists only on your computer. It is not part of any commit yet.',takeaway:'New files start untracked.'},
+      {chapter:'03 / Feature branch',title:'Check your work',subtitle:'See the untracked test before staging it.',command:'git status',help:'Inspect the current branch and file state',work:['tests/login.robot|clean|plain','resources/browser.resource|clean|plain','tests/invalid_login.robot|new · untracked|dirty'],stage:[],local:1,remote:1,main:'A',feature:'A',remoteMain:'A',remoteFeature:null,head:'feature',remoteSetup:true,originConnected:true,pr:'none',focus:'work',explanation:'git status reports the feature branch and its untracked test file. It does not change files or history.',takeaway:'Use status to check what Git sees.'},
+      {chapter:'03 / Feature branch',title:'Stage the feature test',subtitle:'Choose the new test for the feature commit.',command:'git add tests/invalid_login.robot',help:'Stage one file',work:['tests/login.robot|clean|plain','resources/browser.resource|clean|plain','tests/invalid_login.robot|tracked|plain'],stage:['tests/invalid_login.robot|selected for commit|staged'],local:1,remote:1,main:'A',feature:'A',remoteMain:'A',remoteFeature:null,head:'feature',remoteSetup:true,originConnected:true,pr:'none',focus:'stage',explanation:'The new test is copied into the staging area. main still points to Version 1.',takeaway:'git add chooses what the next commit will contain.'},
+      {chapter:'03 / Feature branch',title:'Commit the feature test',subtitle:'Save your test on the feature branch.',command:'git commit -m "Add invalid login test"',help:'Create Version 2 on feature',work:['tests/login.robot|clean|plain','resources/browser.resource|clean|plain','tests/invalid_login.robot|clean|plain'],stage:[],local:2,remote:1,main:'A',feature:'B',remoteMain:'A',remoteFeature:null,head:'feature',remoteSetup:true,originConnected:true,pr:'none',focus:'local',explanation:'Version 2 contains the new test. The feature branch advances; local and remote main stay at Version 1.',takeaway:'Committing moves the current branch, not every branch.'},
+      {chapter:'03 / Feature branch',title:'Push the feature branch',subtitle:'Publish the committed test for review.',command:'git push -u origin feature/invalid-login',help:'Create the remote feature branch',work:['tests/login.robot|clean|plain','resources/browser.resource|clean|plain','tests/invalid_login.robot|clean|plain'],stage:[],local:2,remote:2,main:'A',feature:'B',remoteMain:'A',remoteFeature:'B',head:'feature',remoteSetup:true,originConnected:true,pr:'none',focus:'remote',explanation:'origin now has the feature branch at Version 2. Remote main still points to Version 1.',takeaway:'Push the branch before opening a pull request.'},
+      {chapter:'04 / Pull request',title:'Open a pull request',subtitle:'Propose merging the feature branch into main.',command:'GitHub: New pull request',help:'base: main ← compare: feature/invalid-login',work:['tests/login.robot|clean|plain','resources/browser.resource|clean|plain','tests/invalid_login.robot|clean|plain'],stage:[],local:2,remote:2,main:'A',feature:'B',remoteMain:'A',remoteFeature:'B',head:'feature',remoteSetup:true,originConnected:true,pr:'open',focus:'remote',explanation:'The PR presents the new test for review. Opening it does not change main or create a commit.',takeaway:'A pull request asks to merge; it does not merge by itself.'},
+      {chapter:'04 / Pull request',title:'Merge the pull request',subtitle:'Add the reviewed test to main on GitHub.',command:'GitHub: Merge pull request',help:'Choose “Create a merge commit”',work:['tests/login.robot|clean|plain','resources/browser.resource|clean|plain','tests/invalid_login.robot|clean|plain'],stage:[],local:2,remote:3,main:'A',feature:'B',remoteMain:'C',remoteFeature:'B',head:'feature',remoteSetup:true,originConnected:true,pr:'merged',focus:'remote',explanation:'GitHub creates Version 3 as a merge commit with Versions 1 and 2 as parents. Remote main moves to Version 3; local main remains at Version 1.',takeaway:'The PR merge updates remote main, not your local main.'},
+      {chapter:'05 / Sync local main',title:'Switch back to main',subtitle:'Return to your local main branch after the PR merge.',command:'git switch main',help:'Select local main',work:['tests/login.robot|clean|plain','resources/browser.resource|clean|plain'],stage:[],local:2,remote:3,main:'A',feature:'B',remoteMain:'C',remoteFeature:'B',head:'main',remoteSetup:true,originConnected:true,pr:'merged',focus:'work',explanation:'The new test disappears from the working folder because local main still points to Version 1. It is already on remote main at Version 3.',takeaway:'Switching branches does not download the merged PR.'},
+      {chapter:'05 / Sync local main',title:'Pull merged main',subtitle:'Bring the merged test into your local main.',command:'git pull origin main',help:'Fast-forward to Version 3',work:['tests/login.robot|clean|plain','resources/browser.resource|clean|plain','tests/invalid_login.robot|clean|plain'],stage:[],local:3,remote:3,main:'C',feature:'B',remoteMain:'C',remoteFeature:'B',head:'main',remoteSetup:true,originConnected:true,pr:'merged',focus:'local',explanation:'Local main fast-forwards to the PR merge commit. The invalid-login test now appears in your working folder on main.',takeaway:'Pull main after merging a PR to update your local copy.'}
+    ];
+    const commits=[{id:'A',message:'Starter suite'},{id:'B',message:'Invalid login test'},{id:'C',message:'PR merge'}];
+    const commandLabels=['Create GitHub repo','Create local folder','git init','git remote add','Write suite','git add','git commit','git push','git switch -c','Create test','git status','git add','git commit','git push','Open PR','Merge PR','git switch','git pull'];
+    const commandSyntax=[
+      null,
+      null,
+      'git init -b {{branch_name}}',
+      'git remote add {{remote_name}} {{remote_url}}',
+      null,
+      'git add {{file_path_1}} {{file_path_2}}',
+      'git commit -m "{{message}}"',
+      'git push -u {{remote_name}} {{branch_name}}',
+      'git switch -c {{new_branch_name}}',
+      null,
+      'git status',
+      'git add {{file_path}}',
+      'git commit -m "{{message}}"',
+      'git push -u {{remote_name}} {{branch_name}}',
+      null,
+      null,
+      'git switch {{branch_name}}',
+      'git pull {{remote_name}} {{branch_name}}'
+    ];
+    const watchMessages=[
+      'An empty repository exists on GitHub. There is no project folder on your computer yet.',
+      'A separate empty project folder now exists on your computer.',
+      'Git creates the local history folder and the main branch name.',
+      'origin now names the empty GitHub repository; no code has moved yet.',
+      'Two Robot Framework files appear in your working folder.',
+      'Copies of both files appear in the staging area.',
+      'Version 1 appears on local main; the remote is still empty.',
+      'The main branch on GitHub gets Version 1.',
+      'A feature branch starts at Version 1; no new circle appears.',
+      'The invalid-login test appears only in your working folder.',
+      'Status reports the new test as untracked without changing anything.',
+      'The new test is selected in the staging area.',
+      'Version 2 appears on feature; main stays at Version 1.',
+      'The remote feature branch gets Version 2; remote main stays at Version 1.',
+      'The PR asks to add Version 2 to main; it has not merged yet.',
+      'The PR merge creates Version 3 with two incoming arrows.',
+      'Local main still shows Version 1, even after GitHub merged the PR.',
+      'Pull moves local main to Version 3 and reveals the merged test.'
+    ];
+    const $=id=>document.getElementById(id);
+    let current=0, quizIndex=0, answered=false;
+    function escapeHTML(value){return String(value).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+    function fileHTML(spec,kind){const [name,detail,style]=spec.split('|');return `<div class="file ${style==='plain'?(kind==='local'?'committed':kind==='remote'?'remote':''):style}"><strong>${escapeHTML(name)}</strong><span>${escapeHTML(detail)}</span></div>`;}
+    function fillZone(id,items,empty,kind){$(id).innerHTML=items.length?items.map(x=>fileHTML(x,kind)).join(''):`<div class="empty">${escapeHTML(empty)}</div>`;}
+    function renderGraph(s){
+      const n=Math.max(s.local,s.remote);
+      const mainColor='#98da63',featureColor='#ffc36b',remoteColor='#74c9ee';
+      const points={A:[210,80],B:[480,210],C:[780,80]};
+      const lane=(name,y,color,active)=>`<g opacity="${active?1:.38}"><rect x="10" y="${y-15}" width="104" height="30" rx="8" fill="#1d2b42" stroke="${color}"/><text x="62" y="${y+5}" text-anchor="middle" fill="${color}" font-size="13" font-weight="800">${name}</text></g><path class="branch-guide" d="M126 ${y} H920"/>`;
+      const edge=(path,color,marker)=>`<path class="branch-path" d="${path}" stroke="${color}" marker-end="url(#${marker})"/>`;
+      const badges=(id,x,y)=>{
+        const refs=[];
+        if(s.main===id)refs.push([`main${s.head==='main'?' · here':''}`,mainColor]);
+        if(s.feature===id)refs.push([`feature${s.head==='feature'?' · here':''}`,featureColor]);
+        if(s.remoteMain===id)refs.push(['GitHub main',remoteColor]);
+        if(s.remoteFeature===id)refs.push(['GitHub feature',remoteColor]);
+        const top=y-refs.length*13;
+        return refs.map(([label,color],i)=>{
+          const width=Math.max(75,label.length*7+20);
+          const left=id==='C'?x-width-25:x+25;
+          const atY=top+i*26;
+          return `<g><rect x="${left}" y="${atY}" width="${width}" height="22" rx="6" fill="#111c2e" stroke="${color}" stroke-width="1.5"/><text x="${left+9}" y="${atY+15}" fill="${color}" font-size="11" font-weight="800">${escapeHTML(label)}</text></g>`;
+        }).join('');
+      };
+      const node=(id,color)=>{const [x,y]=points[id];return `<g><circle cx="${x}" cy="${y}" r="18" fill="#132238" stroke="${color}" stroke-width="4"/><text x="${x}" y="${y+5}" text-anchor="middle" fill="#f5f8ff" font-size="14" font-weight="900">${commits.findIndex(c=>c.id===id)+1}</text></g>${badges(id,x,y)}`;};
+      const lines=[
+        n>=2?edge('M228 80 C325 80 345 210 435 210 H453',featureColor,'arrow-feature'):'',
+        n>=3?edge('M228 80 H754',mainColor,'arrow-main'):'',
+        n>=3?edge('M498 210 C615 210 645 100 754 88',featureColor,'arrow-feature'):''
+      ].join('');
+      const nodes=commits.slice(0,n).map(c=>node(c.id,c.id==='B'?featureColor:mainColor)).join('');
+      const version=id=>id?`Version ${commits.findIndex(c=>c.id===id)+1}`:'none';
+      const graphDescription=`Local main: ${version(s.main)}; local feature: ${version(s.feature)}; remote main: ${version(s.remoteMain)}; remote feature: ${version(s.remoteFeature)}. Pull request: ${s.pr}.`;
+      const notes=[
+        'The GitHub repository is empty. No commit circles exist yet.',
+        'The local folder is empty too. Git history starts only after git init and the first commit.',
+        'Local main has no commit until you run git commit.',
+        'origin is connected, but neither repository has a commit yet.',
+        'Creating files does not change commit history.',
+        'Staging selects files; it does not add a commit circle.',
+        'Version 1 is the first commit on local main.',
+        'Both local main and GitHub main now point to Version 1.',
+        'main and feature both point to Version 1. Creating a branch adds no commit.',
+        'The new file is not a commit yet.',
+        'git status only reports file state.',
+        'Staging prepares the feature commit, but the graph stays the same.',
+        'Version 2 forks from Version 1 on the feature branch.',
+        'The feature branch on GitHub now points to Version 2 too.',
+        'Opening a PR does not move main.',
+        'GitHub creates Version 3 with two parents: Versions 1 and 2.',
+        'Local main still points to Version 1; GitHub main points to Version 3.',
+        'Local main catches up to the merged Version 3.'
+      ];
+      $('graph').innerHTML=`<svg class="branch-svg" viewBox="0 0 940 285" role="img" aria-label="${escapeHTML(graphDescription)}" xmlns="http://www.w3.org/2000/svg"><defs><marker id="arrow-main" viewBox="0 0 8 8" refX="8" refY="4" markerWidth="8" markerHeight="8" orient="auto"><path d="M0 0 L8 4 L0 8 Z" fill="${mainColor}"/></marker><marker id="arrow-feature" viewBox="0 0 8 8" refX="8" refY="4" markerWidth="8" markerHeight="8" orient="auto"><path d="M0 0 L8 4 L0 8 Z" fill="${featureColor}"/></marker></defs>${lane('main',80,mainColor,Boolean(s.head))}${lane('feature',210,featureColor,Boolean(s.feature))}${lines}${nodes}${n?'':`<text x="300" y="160" fill="#a9bdd5" font-size="17" font-weight="700">No commits yet</text>`}</svg><div class="version-key">${commits.slice(0,n).map((c,i)=>`<span><strong>${i+1}</strong> ${escapeHTML(c.message)}${i>=s.local?' · only on GitHub':''}</span>`).join('')}</div><p class="graph-note">${escapeHTML(notes[current])}</p>`;
+    }
+    function renderLocal(s){
+      if(!s.head){$('local-content').innerHTML=s.localFolder===false?'<div class="empty">No local folder yet</div>':'<div class="empty">Folder exists; Git has not been started</div>';return;}
+      if(!s.local){$('local-content').innerHTML='<div class="repo-summary"><strong>Repository ready</strong><span>No version saved yet</span><div class="branch-chip current">main · current branch</div></div>';return;}
+      const branches=[`<span class="branch-chip ${s.head==='main'?'current':''}">main → Version ${commits.findIndex(c=>c.id===s.main)+1}${s.head==='main'?' · here':''}</span>`];
+      if(s.feature)branches.push(`<span class="branch-chip feature ${s.head==='feature'?'current':''}">feature/invalid-login → Version ${commits.findIndex(c=>c.id===s.feature)+1}${s.head==='feature'?' · here':''}</span>`);
+      $('local-content').innerHTML=`<div class="repo-summary"><strong>${s.local} saved ${s.local===1?'version':'versions'}</strong><span>On your computer</span><div class="branch-list">${branches.join('')}</div></div>`;
+    }
+    function renderRemote(s){
+      if(!s.remoteSetup){$('remote-content').innerHTML='<div class="empty">No GitHub repository yet</div>';return;}
+      if(!s.originConnected){$('remote-content').innerHTML='<div class="repo-summary remote-summary"><strong>Empty GitHub repository</strong><span>Waiting for the local connection</span></div>';return;}
+      if(!s.remoteMain){$('remote-content').innerHTML='<div class="repo-summary remote-summary"><strong>origin connected</strong><span>No commits pushed yet</span></div>';return;}
+      const refs=[`<span class="branch-chip">main → Version ${commits.findIndex(c=>c.id===s.remoteMain)+1}</span>`];
+      if(s.remoteFeature)refs.push(`<span class="branch-chip feature">feature → Version ${commits.findIndex(c=>c.id===s.remoteFeature)+1}</span>`);
+      if(s.pr==='open')refs.push('<span class="branch-chip pr-open">PR open · awaiting merge</span>');
+      if(s.pr==='merged')refs.push('<span class="branch-chip pr-merged">PR merged into main</span>');
+      $('remote-content').innerHTML=`<div class="repo-summary remote-summary"><strong>GitHub repository</strong><span>Remote name: origin</span><div class="branch-list">${refs.join('')}</div></div>`;
+    }
+    function render(){
+      const s=S[current];
+      $('chapter').textContent=s.chapter;
+      $('step-title').textContent=commandLabels[current];
+      $('subtitle').textContent=`${s.title}. ${s.subtitle}`;
+      $('command').textContent=s.command;
+      $('command-help').textContent=s.help;
+      const syntax=commandSyntax[current];
+      $('syntax-row').hidden=!syntax;
+      $('syntax').textContent=syntax||'';
+      $('syntax-hint').textContent=s.command.startsWith('git init -b')?'-b chooses the first branch of a new repository. For a later branch, use git switch -c {{branch_name}}.':syntax?syntax.includes('{{')?'Replace each {{...}} with your own value; do not type the braces.':'Run this command as shown.':'';
+      $('example-label').textContent=syntax?'Example':s.command.startsWith('GitHub:')?'GitHub':'Story';
+      $('prompt').textContent=syntax?'$':'';
+      $('watch-message').textContent=watchMessages[current];
+      $('progress-text').textContent=`${current+1} / ${S.length}`;
+      $('progress-fill').style.width=`${(current+1)/S.length*100}%`;
+      $('explanation').textContent=s.explanation;
+      $('takeaway').textContent=s.takeaway;
+      fillZone('work-content',s.work,s.localFolder===false?'No local folder yet':'Folder is empty','work');
+      fillZone('stage-content',s.stage,'Nothing chosen yet','stage');
+      renderLocal(s);renderRemote(s);renderGraph(s);
+      document.querySelectorAll('.zone').forEach(z=>z.classList.toggle('active',z.dataset.zone===s.focus));
+      document.querySelectorAll('.step-button').forEach((b,i)=>{b.classList.toggle('active',i===current);b.classList.toggle('done',i<current);b.setAttribute('aria-current',i===current?'step':'false');});
+      $('prev').disabled=current===0;
+      $('next').disabled=current===S.length-1;
+      $('next').textContent=current===S.length-1?'Lesson complete ✓':'Next step →';
+    }
+    function goTo(i){current=Math.max(0,Math.min(S.length-1,i));render();}
+    $('steps').innerHTML=S.map((s,i)=>`${i===0||s.chapter!==S[i-1].chapter?`<div class="step-group">${escapeHTML(s.chapter.split(' / ')[1])}</div>`:''}<button class="step-button" type="button" data-step="${i}" aria-label="Step ${i+1}: ${escapeHTML(commandLabels[i])}, ${escapeHTML(s.title)}"><span class="num">${String(i+1).padStart(2,'0')}</span><span class="step-command">${escapeHTML(commandLabels[i])}</span></button>`).join('');
+    $('steps').addEventListener('click',e=>{const button=e.target.closest('[data-step]');if(button)goTo(Number(button.dataset.step));});
+    $('prev').addEventListener('click',()=>goTo(current-1));$('next').addEventListener('click',()=>goTo(current+1));$('reset').addEventListener('click',()=>goTo(0));
+    document.addEventListener('keydown',e=>{if(['INPUT','TEXTAREA','SELECT'].includes(document.activeElement?.tagName)||e.altKey||e.ctrlKey||e.metaKey)return;if(e.key==='ArrowRight'){e.preventDefault();goTo(current+1);}if(e.key==='ArrowLeft'){e.preventDefault();goTo(current-1);}});
+    const quiz=[{q:'You are on main and want a new feature branch. Which command creates and switches to it?',options:['git init -b feature','git switch -c feature','git status'],answer:1,why:'git init -b names the initial branch of a new repository. git switch -c creates a branch from your current commit and switches to it.'},{q:'Is an empty GitHub repository the same thing as your local project folder?',options:['No, one is online and one is on your computer','Yes, both are the same folder','Only after git add'],answer:0,why:'They are separate places. git remote add origin gives the local repository the GitHub repository’s address.'},{q:'What does git remote add origin do?',options:['Connect your local repo to a remote URL','Upload your files immediately','Create the first commit'],answer:0,why:'It stores the GitHub repository address under the short name origin; nothing is pushed yet.'},{q:'What sends the first main commit to the empty GitHub repository?',options:['git add','git push -u origin main','git status'],answer:1,why:'The first push creates the main branch on GitHub.'},{q:'After committing on feature/invalid-login, where does main point?',options:['To the feature commit','To its earlier commit','To the PR merge commit'],answer:1,why:'Only the feature branch moves when you commit on it.'},{q:'After the PR merges on GitHub, is local main updated automatically?',options:['Yes, immediately','No, switch to main and pull','Only if git status is run'],answer:1,why:'The PR updates main on GitHub; your local main changes after you pull.'}];
+    function renderQuiz(){const q=quiz[quizIndex];answered=false;$('quiz-question').textContent=`${quizIndex+1}/${quiz.length} · ${q.q}`;$('quiz-options').innerHTML=q.options.map((option,i)=>`<button class="quiz-option" type="button" data-answer="${i}">${escapeHTML(option)}</button>`).join('');$('quiz-feedback').textContent='';$('quiz-next').hidden=true;}
+    $('quiz-options').addEventListener('click',e=>{const b=e.target.closest('[data-answer]');if(!b||answered)return;answered=true;const q=quiz[quizIndex],chosen=Number(b.dataset.answer);document.querySelectorAll('.quiz-option').forEach((option,i)=>{option.disabled=true;if(i===q.answer)option.classList.add('correct');else if(i===chosen)option.classList.add('wrong');});$('quiz-feedback').textContent=(chosen===q.answer?'Correct. ':'Try the highlighted answer. ')+q.why;$('quiz-next').hidden=false;$('quiz-next').textContent=quizIndex===quiz.length-1?'Review questions ↺':'Next question →';});
+    $('quiz-next').addEventListener('click',()=>{quizIndex=(quizIndex+1)%quiz.length;renderQuiz();});
+    render();renderQuiz();
+  </script>
+</body>
+</html>
