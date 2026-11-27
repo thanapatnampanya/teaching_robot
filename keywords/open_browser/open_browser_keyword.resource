@@ -13,3 +13,5 @@ Skip Tour
     Wait Until Element Is Visible       css:button[data-testid="tour-skip"]
     Click Button        css:button[data-testid="tour-skip"]
     Wait Until Element Is Not Visible       css:.tour-modal
+
+    tests
